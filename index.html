@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Project Manager Tool</title>
+
+    <style>
+        body{
+            font-family:Arial;
+            text-align:center;
+            background:#f4f4f4;
+            padding:20px;
+        }
+
+        .box{
+            background:white;
+            padding:20px;
+            width:90%;
+            max-width:500px;
+            margin:auto;
+            border-radius:10px;
+            box-shadow:0 0 10px rgba(0,0,0,0.2);
+        }
+
+        input, button{
+            padding:10px;
+            margin:5px;
+        }
+
+        button{
+            background:#0077b6;
+            color:white;
+            border:none;
+            cursor:pointer;
+        }
+
+        ul{
+            text-align:left;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="box">
+
+    <h1>Project Manager</h1>
+
+    <input id="task" placeholder="Enter Project Task">
+    <button onclick="addTask()">Add Task</button>
+
+    <ul id="list"></ul>
+
+</div>
+
+<script>
+function addTask(){
+    let task = document.getElementById("task").value;
+
+    if(task === ""){
+        alert("Enter task");
+        return;
+    }
+
+    let li = document.createElement("li");
+    li.innerText = task;
+
+    document.getElementById("list").appendChild(li);
+
+    document.getElementById("task").value = "";
+}
+</script>
+
+</body>
+</html>
