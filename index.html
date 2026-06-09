@@ -1,21 +1,20 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Project Manager Tool</title>
+    <title>Project Management Tool</title>
 
     <style>
         body{
             font-family:Arial;
-            text-align:center;
             background:#f4f4f4;
+            text-align:center;
             padding:20px;
         }
 
         .box{
             background:white;
             padding:20px;
-            width:90%;
-            max-width:500px;
+            max-width:600px;
             margin:auto;
             border-radius:10px;
             box-shadow:0 0 10px rgba(0,0,0,0.2);
@@ -33,7 +32,11 @@
             cursor:pointer;
         }
 
-        ul{
+        .card{
+            background:#e9ecef;
+            margin:10px;
+            padding:10px;
+            border-radius:8px;
             text-align:left;
         }
     </style>
@@ -43,31 +46,102 @@
 
 <div class="box">
 
-    <h1>Project Manager</h1>
+    <!-- HOME -->
+    <h1>Project Management Tool</h1>
 
-    <input id="task" placeholder="Enter Project Task">
+    <!-- CREATE PROJECT -->
+    <h3>Create Project</h3>
+    <input id="pname" placeholder="Project Name">
+    <input id="deadline" type="date">
+    <button onclick="addProject()">Add Project</button>
+
+    <hr>
+
+    <!-- ADD TASK -->
+    <h3>Add Task</h3>
+    <input id="task" placeholder="Task Name">
+    <input id="progress" placeholder="Progress % (0-100)">
     <button onclick="addTask()">Add Task</button>
 
-    <ul id="list"></ul>
+    <hr>
+
+    <!-- DISPLAY -->
+    <h3>Projects & Tasks</h3>
+    <div id="output"></div>
 
 </div>
 
 <script>
+
+let projects = [];
+
+function addProject(){
+    let name = document.getElementById("pname").value;
+    let deadline = document.getElementById("deadline").value;
+
+    if(name === ""){
+        alert("Enter project name");
+        return;
+    }
+
+    projects.push({
+        name:name,
+        deadline:deadline,
+        tasks:[]
+    });
+
+    render();
+}
+
 function addTask(){
     let task = document.getElementById("task").value;
+    let progress = document.getElementById("progress").value;
 
     if(task === ""){
         alert("Enter task");
         return;
     }
 
-    let li = document.createElement("li");
-    li.innerText = task;
+    if(projects.length === 0){
+        alert("First create a project");
+        return;
+    }
 
-    document.getElementById("list").appendChild(li);
+    projects[0].tasks.push({
+        name:task,
+        progress:progress
+    });
 
-    document.getElementById("task").value = "";
+    render();
 }
+
+function render(){
+    let out = document.getElementById("output");
+    out.innerHTML = "";
+
+    for(let i=0;i<projects.length;i++){
+
+        let p = projects[i];
+
+        let html = `
+        <div class="card">
+            <h3>📁 ${p.name}</h3>
+            <p>📅 Deadline: ${p.deadline}</p>
+            <p>📊 Tasks:</p>
+        `;
+
+        for(let j=0;j<p.tasks.length;j++){
+            html += `
+                <p>✔ ${p.tasks[j].name} - ${p.tasks[j].progress}%</p>
+            `;
+        }
+
+        html += `</div>`;
+
+        out.innerHTML += html;
+    }
+}
+
 </script>
 
 </body>
